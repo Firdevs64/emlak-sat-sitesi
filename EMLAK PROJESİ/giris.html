@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 120px auto;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            opacity: 0.9;
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .auth-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        .admin-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .admin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Giriş Formu -->
+    <main>
+        <div class="auth-container">
+            <h2>Giriş Yap</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="auth-btn">Giriş Yap</button>
+                <div class="auth-links">
+                    <a href="sifremi-unuttum.html">Şifremi Unuttum</a>
+                    <span>|</span>
+                    <a href="kayit.html">Hesap Oluştur</a>
+                </div>
+                <div class="admin-link">
+                    Yönetici misiniz? <a href="admin-login.html">Admin Giriş Yap</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+        // Firebase ayarlarını buraya ekle
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP0Ine5bUjy1TNTsjw_7jggdAbIElG_04",
+            authDomain: "emlakdunyasi-aed77.firebaseapp.com",
+            projectId: "emlakdunyasi-aed77",
+            storageBucket: "emlakdunyasi-aed77.firebasestorage.app",
+            messagingSenderId: "457595408651",
+            appId: "1:457595408651:web:865529927b8ffaee60920e",
+            measurementId: "G-4J7VBZXVHX"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // Giriş başarılı, yönlendirme yapabilirsin
+                window.location.href = 'index.html';
+            } catch (error) {
+                alert('Giriş hatası: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknik İyileştirmeler - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .optimization-container {
+            max-width: 1200px;
+            margin: 120px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .optimization-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .optimization-header h1 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .optimization-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .optimization-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .optimization-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .optimization-card h2 {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .optimization-card h2 i {
+            color: var(--primary-color);
+        }
+
+        .optimization-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .optimization-list li {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .optimization-list li i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .optimization-list li span {
+            color: var(--dark-gray);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        .status-completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .status-pending {
+            background: #FFC107;
+            color: black;
+        }
+
+        .status-in-progress {
+            background: #2196F3;
+            color: white;
+        }
+
+        .optimization-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .optimization-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .optimization-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .optimization-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Teknik İyileştirmeler İçeriği -->
+    <main>
+        <div class="optimization-container">
+            <div class="optimization-header">
+                <h1>Teknik İyileştirmeler</h1>
+                <p>Web sitemizin performansını ve kullanıcı deneyimini sürekli iyileştirmek için yaptığımız teknik güncellemeler.</p>
+            </div>
+
+            <div class="optimization-grid">
+                <div class="optimization-card">
+                    <h2><i class="fas fa-search"></i> SEO Optimizasyonu</h2>
+                    <ul class="optimization-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Meta etiketleri optimizasyonu</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sayfa başlıkları ve açıklamaları</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-spinner"></i>
+                            <span>İçerik yapılandırma (Schema.org)</span>
+                            <span class="status-badge status-in-progress">Devam Ediyor</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Site haritası güncellemesi</span>
+                            <span class="status-badge status-pending">Beklemede</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="optimization-card">
+                    <h2><i class="fas fa-tachometer-alt"></i> Performans Optimizasyonu</h2>
+                    <ul class="optimization-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Resim optimizasyonu</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>CSS ve JavaScript minify</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-spinner"></i>
+                            <span>Önbellek stratejisi</span>
+                            <span class="status-badge status-in-progress">Devam Ediyor</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>CDN entegrasyonu</span>
+                            <span class="status-badge status-pending">Beklemede</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="optimization-card">
+                    <h2><i class="fas fa-mobile-alt"></i> Mobil Uyumluluk</h2>
+                    <ul class="optimization-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Responsive tasarım</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mobil menü optimizasyonu</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-spinner"></i>
+                            <span>Touch hedef boyutları</span>
+                            <span class="status-badge status-in-progress">Devam Ediyor</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mobil performans testleri</span>
+                            <span class="status-badge status-pending">Beklemede</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="optimization-card">
+                    <h2><i class="fas fa-shield-alt"></i> Güvenlik Önlemleri</h2>
+                    <ul class="optimization-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>SSL sertifikası</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>XSS koruması</span>
+                            <span class="status-badge status-completed">Tamamlandı</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-spinner"></i>
+                            <span>CSRF token implementasyonu</span>
+                            <span class="status-badge status-in-progress">Devam Ediyor</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Güvenlik duvarı kurulumu</span>
+                            <span class="status-badge status-pending">Beklemede</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="optimization-stats">
+                <div class="stat-card">
+                    <div class="stat-value">92</div>
+                    <div class="stat-label">Google PageSpeed Skoru</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1.2s</div>
+                    <div class="stat-label">Ortalama Yükleme Süresi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Mobil Uyumluluk</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

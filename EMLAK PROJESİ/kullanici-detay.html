@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Detayı - Emlak Dünyası Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a href="admin-tailwind.html" class="text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Admin Paneline Dön
+                    </a>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Kullanıcı Detayı</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Kullanıcı Bilgileri Kartı -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex items-center mb-6">
+                <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-4xl text-gray-400"></i>
+                </div>
+                <div class="ml-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Ahmet Yılmaz</h2>
+                    <p class="text-gray-600">Kullanıcı ID: #12345</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Temel Bilgiler -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope w-6 text-gray-400"></i>
+                        <div class="ml-3">
+                            <p class="text-sm text-gray-500">E-posta</p>
+                            <p class="text-gray-900">ahmet.yilmaz@example.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar-alt w-6 text-gray-400"></i>
+                        <div class="ml-3">
+                            <p class="text-sm text-gray-500">Kayıt Tarihi</p>
+                            <p class="text-gray-900">15.03.2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İstatistikler -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-home w-6 text-gray-400"></i>
+                        <div class="ml-3">
+                            <p class="text-sm text-gray-500">Toplam İlan Sayısı</p>
+                            <p class="text-gray-900">12</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle w-6 text-gray-400"></i>
+                        <div class="ml-3">
+                            <p class="text-sm text-gray-500">Şikayet Sayısı</p>
+                            <p class="text-gray-900">3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- İşlem Butonları -->
+        <div class="flex gap-4">
+            <button onclick="handleUserAction('suspend')" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md transition-colors flex items-center justify-center">
+                <i class="fas fa-pause-circle mr-2"></i>
+                Kullanıcıyı Askıya Al
+            </button>
+            <button onclick="handleUserAction('delete')" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md transition-colors flex items-center justify-center">
+                <i class="fas fa-trash-alt mr-2"></i>
+                Kullanıcıyı Sil
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // Kullanıcı işlemleri için fonksiyon
+        function handleUserAction(action) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id') || '12345'; // Gerçek uygulamada kullanıcı ID'si URL'den alınmalı
+
+            if (action === 'delete') {
+                if (confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.')) {
+                    // Kullanıcı silme işlemini localStorage'a kaydet
+                    localStorage.setItem('userAction', JSON.stringify({
+                        action: 'delete',
+                        userId: userId,
+                        timestamp: new Date().getTime()
+                    }));
+                    alert('Kullanıcı başarıyla silindi.');
+                    window.location.href = 'admin-tailwind.html';
+                }
+            } else if (action === 'suspend') {
+                if (confirm('Bu kullanıcıyı askıya almak istediğinizden emin misiniz?')) {
+                    // Kullanıcı askıya alma işlemini localStorage'a kaydet
+                    localStorage.setItem('userAction', JSON.stringify({
+                        action: 'suspend',
+                        userId: userId,
+                        timestamp: new Date().getTime()
+                    }));
+                    alert('Kullanıcı başarıyla askıya alındı.');
+                    window.location.href = 'admin-tailwind.html';
+                }
+            }
+        }
+
+        // Sayfa sadece admin panelinden açılabilir kontrolü
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromAdmin = urlParams.get('from') === 'admin';
+            
+            if (!fromAdmin) {
+                window.location.href = 'admin-login.html';
+            }
+        });
+    </script>
+</body>
+</html> 

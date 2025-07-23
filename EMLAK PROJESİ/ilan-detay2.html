@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlan Detayı - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-color: #00A0B0;
+            --dark-gray: #333333;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container-flex {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 48px;
+        }
+
+        .logo {
+            flex: 0 0 auto;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-links ul {
+            display: flex;
+            list-style: none;
+            gap: 2.2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            flex: 0 0 auto;
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.4rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            box-sizing: border-box;
+        }
+
+        .btn-login {
+            color: var(--primary-color);
+            background: var(--white);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-login:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-register {
+            background: var(--primary-color);
+            color: var(--white);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-register:hover {
+            background: #008a99;
+            border-color: #008a99;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            background-color: var(--light-gray);
+        }
+
+        .listing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .listing-title h1 {
+            font-size: 2rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .listing-price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .listing-location {
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .listing-gallery {
+            position: relative;
+            height: 500px;
+            background: var(--light-gray);
+        }
+
+        .gallery-wrapper {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: var(--light-gray);
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 2;
+        }
+
+        .gallery-arrow:hover {
+            background: var(--white);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn {
+            left: 1.5rem;
+        }
+
+        .next-btn {
+            right: 1.5rem;
+        }
+
+        .gallery-dots {
+            position: absolute;
+            bottom: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.7rem;
+            z-index: 3;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gallery-dot.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .listing-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .info-section, .features-section, .description-section, .map-section {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+            border-left: 5px solid var(--primary-color);
+            transition: box-shadow 0.2s;
+        }
+        .info-section:hover, .features-section:hover, .description-section:hover, .map-section:hover {
+            box-shadow: 0 4px 16px rgba(0,160,176,0.10);
+        }
+        .features-section h3, .description-section h3, .map-section h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .features-grid {
+            background: var(--light-gray);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+        .feature-item {
+            background: #eafafd;
+            border-radius: 5px;
+            padding: 0.5rem 0.7rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0,160,176,0.04);
+        }
+        .description-text {
+            background: var(--light-gray);
+            border-radius: 6px;
+            padding: 1rem;
+            color: var(--dark-gray);
+        }
+        .map-placeholder {
+            background: #eafafd;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7ad1e6;
+            font-size: 1.1rem;
+        }
+
+        .contact-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .agent-details h4 {
+            color: var(--dark-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .agent-details p {
+            color: var(--dark-gray);
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-btn {
+            padding: 0.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--white);
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .call-btn {
+            background: var(--primary-color);
+        }
+
+        .email-btn {
+            background: var(--dark-gray);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .report-btn {
+            background: #E53E3E;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #1a202c;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: #a0aec0;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 900px) {
+            .nav-container-flex {
+                flex-direction: column;
+                gap: 1rem;
+                height: auto;
+            }
+            .nav-links ul {
+                gap: 1rem;
+            }
+            .auth-buttons {
+                margin-left: 0;
+            }
+        }
+
+        /* İlan başlığı hizasında sağda aksiyon butonları */
+        .listing-actions-header {
+            display: flex;
+            gap: 1rem;
+        }
+        .action-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        .favorite-btn {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        .favorite-btn i {
+            color: #e53e3e;
+        }
+        .favorite-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        .share-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: 2px solid var(--primary-color);
+        }
+        .share-btn:hover {
+            background: #008a99;
+            border-color: #008a99;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background: #fff;
+            margin: 8% auto;
+            padding: 2rem 2.5rem;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            right: 1.2rem;
+            top: 1.2rem;
+            font-size: 1.5rem;
+            color: #888;
+            cursor: pointer;
+        }
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+        .checkbox-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-size: 1rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+        .submit-btn {
+            margin-top: 1.2rem;
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover {
+            background: #008a99;
+        }
+
+        .map-section {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .heart {
+            color: #e74c3c;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        .heart.filled {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown" id="hesabimMenu" style="display:none;">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim - Kopya.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="giris.html" class="btn btn-login" id="btnGiris">Giriş Yap</a>
+                <a href="kayit.html" class="btn btn-register" id="btnKayit">Kayıt Ol</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="listing-container">
+            <div class="listing-header">
+                <div class="listing-title">
+                    <h1 id="ilanBaslik"></h1>
+                    <p class="listing-price" id="ilanFiyat"></p>
+                    <p class="listing-location" id="ilanKonum"><i class="fas fa-map-marker-alt"></i> </p>
+                </div>
+                <div class="listing-actions-header">
+                    <button id="favoriBtn" onclick="favorilereEkle()">
+                        <span id="favoriIcon" class="heart">&#9825;</span> Favorilere Ekle
+                    </button>
+                    <span id="favoriBildirimi" style="display:none; color:green; margin-left:10px;">Favorilere eklendi!</span>
+                    <button class="action-btn share-btn">
+                        <i class="fas fa-share-alt"></i> Paylaş
+                    </button>
+                </div>
+            </div>
+
+            <div class="listing-gallery">
+                <div class="gallery-wrapper">
+                    <img class="gallery-image" id="galleryImage">
+                    <button class="gallery-arrow prev-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="gallery-arrow next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                    <div class="gallery-dots" id="galleryDots"></div>
+                </div>
+            </div>
+
+            <div class="listing-content">
+                <div class="listing-info">
+                    <div class="features-section">
+                        <h3>Özellikler</h3>
+                        <div class="ozellikler-kutu">
+                            <ul id="ilanOzellikler"></ul>
+                        </div>
+                    </div>
+
+                    <div class="description-section">
+                        <h3>Açıklama</h3>
+                        <div class="aciklama-kutu">
+                            <p id="ilanAciklama"></p>
+                        </div>
+                    </div>
+
+                    <div class="map-section">
+                        <h3>Konum</h3>
+                        <div id="ilanHarita" style="width:100%;height:400px;"></div>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <div class="agent-info">
+                        <img src="images/agent.jpg" alt="Emlakçı" class="agent-avatar">
+                        <div class="agent-details">
+                            <h4>Ahmet Yılmaz</h4>
+                            <p>Emlak Danışmanı</p>
+                        </div>
+                    </div>
+                    <div class="contact-buttons">
+                        <a href="tel:+905551234567" class="contact-btn call-btn">
+                            <i class="fas fa-phone"></i>
+                            Ara
+                        </a>
+                        <a href="mailto:ahmet.yilmaz@emlakdunyasi.com" class="contact-btn email-btn">
+                            <i class="fas fa-envelope"></i>
+                            E-posta Gönder
+                        </a>
+                        <a href="https://wa.me/905551234567" class="contact-btn whatsapp-btn" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            WhatsApp
+                        </a>
+                        <button class="contact-btn report-btn" id="openReportModal">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            İlanla İlgili Sorun Bildir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Modal: Sorun Bildir -->
+    <div id="reportModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>İlanla İlgili Sorun Bildir</h2>
+            <form id="reportForm">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="sikayet" value="Satılmış/Kiralanmış"> Satılmış/Kiralanmış</label><br>
+                    <label><input type="checkbox" name="sikayet" value="İzinsiz Yayınlanıyor"> İzinsiz Yayınlanıyor</label><br>
+                    <label><input type="checkbox" name="sikayet" value="Hatalı Bilgi"> Hatalı Bilgi</label><br>
+                    <label><input type="checkbox" name="sikayet" value="Sahibine Ulaşılamıyor"> Sahibine Ulaşılamıyor</label><br>
+                    <label><input type="checkbox" name="sikayet" value="Sahte İlan"> Sahte İlan</label>
+                </div>
+                <textarea name="aciklama" id="sikayetAciklama" rows="3" placeholder="Açıklama (isteğe bağlı)" style="width:100%;margin-top:1rem;padding:0.7rem;border-radius:5px;border:1px solid #ddd;font-size:1rem;"></textarea>
+                <button type="submit" class="submit-btn">Gönder</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="ilan-gorselleri"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyAP0Ine5bUjy1TNTsjw_7jggdAbIElG_04",
+            authDomain: "emlakdunyasi-aed77.firebaseapp.com",
+            projectId: "emlakdunyasi-aed77",
+            storageBucket: "emlakdunyasi-aed77.firebasestorage.app",
+            messagingSenderId: "457595408651",
+            appId: "1:457595408651:web:865529927b8ffaee60920e",
+            measurementId: "G-4J7VBZXVHX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            const hesabimMenu = document.getElementById('hesabimMenu');
+            const btnGiris = document.getElementById('btnGiris');
+            const btnKayit = document.getElementById('btnKayit');
+            if (user) {
+                if (hesabimMenu) hesabimMenu.style.display = 'block';
+                if (btnGiris) btnGiris.style.display = 'none';
+                if (btnKayit) btnKayit.style.display = 'none';
+            } else {
+                if (hesabimMenu) hesabimMenu.style.display = 'none';
+                if (btnGiris) btnGiris.style.display = 'inline-block';
+                if (btnKayit) btnKayit.style.display = 'inline-block';
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const cikisYap = document.getElementById('cikisYap');
+            if (cikisYap) {
+                cikisYap.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    signOut(auth).then(() => {
+                        window.location.href = "index.html";
+                    });
+                });
+            }
+        });
+    </script>
+    <script>
+        function getQueryParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        async function getIlanById(id) {
+            const response = await fetch('/api/featured-listings');
+            const listingsObj = await response.json();
+            return listingsObj[id];
+        }
+
+        function getGalleryImages(gorseller) {
+            let images = [];
+            if (Array.isArray(gorseller)) {
+                images = gorseller.filter(url => url && typeof url === 'string' && url.trim() !== '');
+            } else if (typeof gorseller === 'object') {
+                images = Object.values(gorseller).filter(url => url && typeof url === 'string' && url.trim() !== '');
+            } else if (typeof gorseller === 'string' && gorseller.trim() !== '') {
+                images = [gorseller];
+            }
+            return images;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const ilanId = getQueryParam('id');
+            const ilan = await getIlanById(ilanId);
+            console.log('ilanId:', ilanId);
+            console.log('ilan:', ilan);
+            if (!ilan) {
+                document.querySelector('.gallery-wrapper').innerHTML = 'İlan bulunamadı!';
+                return;
+            }
+
+            // BAŞLIK, FİYAT, KONUMU DOLDUR
+            document.getElementById('ilanBaslik').textContent = ilan.baslik || '';
+            document.getElementById('ilanFiyat').textContent = (ilan.fiyat ? ilan.fiyat + ' TL' : '');
+            document.getElementById('ilanKonum').textContent = (ilan.ilce || '') + ', ' + (ilan.il || '');
+
+            const galleryImages = getGalleryImages(ilan.gorseller);
+            console.log('galleryImages:', galleryImages);
+
+            // Galeriye ilk görseli ve okları/dotları ekle
+            if (galleryImages.length > 0) {
+                let currentIndex = 0;
+                const galleryImage = document.getElementById('galleryImage');
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const galleryDots = document.getElementById('galleryDots');
+
+                function showImage(index) {
+                    galleryImage.src = galleryImages[index];
+                    // Dotları güncelle
+                    if (galleryDots) {
+                        galleryDots.innerHTML = galleryImages.map((_, i) =>
+                            `<span class="gallery-dot${i === index ? ' active' : ''}" data-index="${i}"></span>`
+                        ).join('');
+                        // Dotlara tıklama
+                        galleryDots.querySelectorAll('.gallery-dot').forEach(dot => {
+                            dot.onclick = () => {
+                                currentIndex = Number(dot.dataset.index);
+                                showImage(currentIndex);
+                            };
+                        });
+                    }
+                }
+
+                prevBtn.onclick = () => {
+                    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                    showImage(currentIndex);
+                };
+                nextBtn.onclick = () => {
+                    currentIndex = (currentIndex + 1) % galleryImages.length;
+                    showImage(currentIndex);
+                };
+
+                showImage(currentIndex);
+            } else {
+                document.querySelector('.gallery-wrapper').innerHTML = 'Görsel bulunamadı!';
+            }
+
+            // Özellikler
+            const ozelliklerHTML = `
+                <li>🏠 ${ilan.net_m2 || '-'} m²</li>
+                <li>🛏️ ${ilan.oda_sayisi || '-'}</li>
+                <li>🏢 ${ilan.kat ? ilan.kat + '. Kat' : '-'}</li>
+                <li>🚗 ${ilan.otopark || '-'} Otopark</li>
+                <li>📅 ${ilan.bina_yasi || '-'} Yapımı</li>
+                <li>✔️ ${ilan.esyali ? 'Eşyalı' : 'Eşyasız'}</li>
+            `;
+            document.getElementById('ilanOzellikler').innerHTML = ozelliklerHTML;
+
+            // Açıklama
+            document.getElementById('ilanAciklama').textContent = ilan.aciklama || '';
+
+            // Harita işlemleri
+            if (ilan && ilan.latitude && ilan.longitude) {
+                const lat = parseFloat(ilan.latitude);
+                const lng = parseFloat(ilan.longitude);
+                const map = L.map('ilanHarita').setView([lat, lng], 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                L.marker([lat, lng]).addTo(map);
+            }
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user && user.email) {
+                // Kullanıcının favorilerini çek
+                const response = await fetch(`/api/get-favorites?email=${encodeURIComponent(user.email)}`);
+                const data = await response.json();
+                const favoriler = data.favoriler || [];
+                if (favoriler.includes(ilanId)) {
+                    document.getElementById('favoriIcon').innerHTML = '&#9829;';
+                    document.getElementById('favoriIcon').classList.add('filled');
+                    document.getElementById('favoriBtn').innerHTML = '<span id="favoriIcon" class="heart filled">&#9829;</span> Favorilere Eklendi';
+                }
+            }
+        });
+
+        async function favorilereEkle() {
+            const ilanId = getQueryParam('id');
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.email) {
+                alert('Favori eklemek için giriş yapmalısınız!');
+                return;
+            }
+
+            // Favori ekleme API çağrısı (örnek)
+            const response = await fetch('/api/add-favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: user.email,
+                    ilanId: ilanId
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                // Kalbi doldur
+                document.getElementById('favoriIcon').innerHTML = '&#9829;'; // Dolu kalp
+                document.getElementById('favoriIcon').classList.add('filled');
+                // Bildirimi göster
+                document.getElementById('favoriBildirimi').style.display = 'inline';
+                // Butonun metnini değiştir
+                document.getElementById('favoriBtn').innerHTML = '<span id="favoriIcon" class="heart filled">&#9829;</span> Favorilere Eklendi';
+            } else {
+                alert('Bir hata oluştu: ' + result.message);
+            }
+        }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Modalı aç
+        const openReportModalBtn = document.getElementById('openReportModal');
+        const reportModal = document.getElementById('reportModal');
+        const closeModalBtn = reportModal.querySelector('.close-modal');
+
+        if (openReportModalBtn && reportModal && closeModalBtn) {
+            openReportModalBtn.addEventListener('click', function() {
+                reportModal.style.display = 'block';
+            });
+
+            closeModalBtn.addEventListener('click', function() {
+                reportModal.style.display = 'none';
+            });
+
+            // Modal dışında bir yere tıklayınca kapat
+            window.addEventListener('click', function(e) {
+                if (e.target === reportModal) {
+                    reportModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Form submit işlemi
+        const reportForm = document.getElementById('reportForm');
+        if (reportForm) {
+            reportForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Burada form verilerini backend'e gönderebilirsin
+                alert('Şikayetiniz alınmıştır. Teşekkürler!');
+                reportModal.style.display = 'none';
+                reportForm.reset();
+            });
+        }
+    });
+    </script>
+</body>
+</html> 

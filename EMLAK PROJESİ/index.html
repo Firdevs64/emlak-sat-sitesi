@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emlak Dünyası - Ana Sayfa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1rem;
+        }
+
+        .news-content h3 {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        .news-content p {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown" id="hesabimMenu" style="display:none;">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim - Kopya.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="giris.html" class="btn btn-login" id="btnGiris">Giriş Yap</a>
+                <a href="kayit.html" class="btn btn-register" id="btnKayit">Kayıt Ol</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main>
+        <!-- Arama Alanı -->
+        <section class="search-section">
+            <div class="search-container">
+                <h1>Hayalinizdeki Evi Bulun</h1>
+                <form action="arama-sonuclari.html" method="GET" class="search-form">
+                    <div class="search-box">
+                        <input type="text" name="location" placeholder="İl, ilçe veya mahalle ara...">
+                        <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select name="type">
+                            <option value="">İlan Türü</option>
+                            <option value="satilik">Satılık</option>
+                            <option value="kiralik">Kiralık</option>
+                        </select>
+                        <select name="category">
+                            <option value="">Emlak Türü</option>
+                            <option value="konut">Konut</option>
+                            <option value="arsa">Arsa</option>
+                            <option value="isyeri">İşyeri</option>
+                        </select>
+                        <input type="number" name="minPrice" placeholder="Min. Fiyat">
+                        <input type="number" name="maxPrice" placeholder="Max. Fiyat">
+                        <button type="submit" class="filter-btn">
+                            <i class="fas fa-sliders-h"></i>
+                            Filtrele
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Öne Çıkan İlanlar -->
+        <section class="featured-listings">
+            <h2>Öne Çıkan İlanlar</h2>
+            <div id="featured-listings" class="listing-grid"></div>
+        </section>
+
+        <!-- Son Haberler -->
+        <section class="news-section">
+            <div class="container">
+                <h2>Son Haberler</h2>
+                <div class="news-grid">
+                    <!-- 3 adet haber kartı burada -->
+                    <div class="news-card">
+                        <img src="images/news1.png" alt="Emlak Haberi">
+                        <div class="news-content">
+                            <span class="news-date">15 Mart 2024</span>
+                            <h3>Konut Fiyatlarındaki Son Durum ve Beklentiler</h3>
+                            <p>Türkiye genelinde konut fiyatlarındaki son durum ve uzmanların 2024 yılı beklentileri hakkında detaylı bir analiz yapıldı...</p>
+                            <a href="haber-detay.html?id=1" class="read-more">Devamını Oku</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="images/news2.png" alt="Emlak Haberi">
+                        <div class="news-content">
+                            <span class="news-date">14 Mart 2024</span>
+                            <h3>Yeni Konut Projeleri İstanbul'da Yoğunlaşıyor</h3>
+                            <p>İstanbul'da başlayan yeni konut projeleri ve gelişmekte olan bölgeler hakkında detaylı bilgiler...</p>
+                            <a href="haber-detay.html?id=2" class="read-more">Devamını Oku</a>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <img src="images/news3.png" alt="Emlak Haberi">
+                        <div class="news-content">
+                            <span class="news-date">13 Mart 2024</span>
+                            <h3>Kira Artış Oranları Belirlendi</h3>
+                            <p>2024 yılı kira artış oranları açıklandı. Kiracılar ve ev sahipleri için önemli bilgiler içeren bu haber...</p>
+                            <a href="haber-detay.html?id=3" class="read-more">Devamını Oku</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-all">
+                    <a href="haberler.html" class="btn">Tüm Haberleri Gör</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Endeksa -->
+        <section class="endeksa-section">
+            <a href="https://www.endeksa.com" target="_blank" class="endeksa-btn">
+                Gayrimenkul Fiyat Analizi için Endeksa'yı Ziyaret Edin
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyAP0Ine5bUjy1TNTsjw_7jggdAbIElG_04",
+      authDomain: "emlakdunyasi-aed77.firebaseapp.com",
+      projectId: "emlakdunyasi-aed77",
+      storageBucket: "emlakdunyasi-aed77.firebasestorage.app",
+      messagingSenderId: "457595408651",
+      appId: "1:457595408651:web:865529927b8ffaee60920e",
+      measurementId: "G-4J7VBZXVHX"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      const hesabimMenu = document.getElementById('hesabimMenu');
+      const btnGiris = document.getElementById('btnGiris');
+      const btnKayit = document.getElementById('btnKayit');
+      if (user) {
+        if (hesabimMenu) hesabimMenu.style.display = 'block';
+        if (btnGiris) btnGiris.style.display = 'none';
+        if (btnKayit) btnKayit.style.display = 'none';
+      } else {
+        if (hesabimMenu) hesabimMenu.style.display = 'none';
+        if (btnGiris) btnGiris.style.display = 'inline-block';
+        if (btnKayit) btnKayit.style.display = 'inline-block';
+      }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const cikisYap = document.getElementById('cikisYap');
+      if (cikisYap) {
+        cikisYap.addEventListener('click', (e) => {
+          e.preventDefault();
+          signOut(auth).then(() => {
+            window.location.href = "index.html";
+          });
+        });
+      }
+    });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.dropdown > a').forEach(function(dropdownToggle) {
+        dropdownToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          const dropdownContent = this.nextElementSibling;
+          if (dropdownContent) {
+            dropdownContent.classList.toggle('show');
+          }
+        });
+      });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emlak Haberleri - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .news-section {
+            padding: 120px 5% 4rem;
+            background-color: var(--light-gray);
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .news-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .news-title:hover {
+            color: var(--dark-gray);
+        }
+
+        .news-excerpt {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            background: var(--white);
+            color: var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-number {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-number.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .page-number:hover:not(.active) {
+            background: var(--light-gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown" id="hesabimMenu" style="display:none;">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim - Kopya.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <a href="giris.html" class="btn btn-login" id="btnGiris">Giriş Yap</a>
+                <a href="kayit.html" class="btn btn-register" id="btnKayit">Kayıt Ol</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="news-section">
+        <div class="container">
+            <h2>Emlak Haberleri</h2>
+            <div class="news-grid" id="newsGrid">
+                <!-- Haberler JavaScript ile doldurulacak -->
+            </div>
+            
+            <!-- Sayfalama -->
+            <div class="pagination">
+                <button id="prevPage" class="pagination-btn" disabled>Önceki</button>
+                <div class="page-numbers" id="pageNumbers">
+                    <!-- Sayfa numaraları JavaScript ile doldurulacak -->
+                </div>
+                <button id="nextPage" class="pagination-btn">Sonraki</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Güvenilir emlak platformu</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Erişim</h3>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <a href="mailto:emlakdunyasi.destek@gmail.com" class="email">emlakdunyasi.destek@gmail.com</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyAP0Ine5bUjy1TNTsjw_7jggdAbIElG_04",
+        authDomain: "emlakdunyasi-aed77.firebaseapp.com",
+        projectId: "emlakdunyasi-aed77",
+        storageBucket: "emlakdunyasi-aed77.firebasestorage.app",
+        messagingSenderId: "457595408651",
+        appId: "1:457595408651:web:865529927b8ffaee60920e",
+        measurementId: "G-4J7VBZXVHX"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+        const hesabimMenu = document.getElementById('hesabimMenu');
+        const btnGiris = document.getElementById('btnGiris');
+        const btnKayit = document.getElementById('btnKayit');
+        if (user) {
+            if (hesabimMenu) hesabimMenu.style.display = 'block';
+            if (btnGiris) btnGiris.style.display = 'none';
+            if (btnKayit) btnKayit.style.display = 'none';
+        } else {
+            if (hesabimMenu) hesabimMenu.style.display = 'none';
+            if (btnGiris) btnGiris.style.display = 'inline-block';
+            if (btnKayit) btnKayit.style.display = 'inline-block';
+        }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const cikisYap = document.getElementById('cikisYap');
+        if (cikisYap) {
+            cikisYap.addEventListener('click', (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => {
+                    window.location.href = "index.html";
+                });
+            });
+        }
+    });
+    </script>
+
+    <script>
+        const newsData = [
+            {
+                id: 1,
+                date: "15 Mart 2024",
+                title: "Konut Fiyatlarındaki Son Durum ve Beklentiler",
+                image: "images/news1.png",
+                summary: "Türkiye genelinde konut fiyatlarındaki son durum ve uzmanların 2024 yılı beklentileri hakkında detaylı bir analiz yapıldı..."
+            },
+            {
+                id: 2,
+                date: "14 Mart 2024",
+                title: "Yeni Konut Projeleri İstanbul'da Yoğunlaşıyor",
+                image: "images/news2.png",
+                summary: "İstanbul'da başlayan yeni konut projeleri ve gelişmekte olan bölgeler hakkında detaylı bilgiler..."
+            },
+            {
+                id: 3,
+                date: "13 Mart 2024",
+                title: "Kira Artış Oranları Belirlendi",
+                image: "images/news3.png",
+                summary: "2024 yılı kira artış oranları açıklandı. Kiracılar ve ev sahipleri için önemli bilgiler içeren bu haber..."
+            },
+            {
+                id: 4,
+                date: "12 Mart 2024",
+                title: "Yeni Emlak Vergisi Düzenlemesi",
+                image: "images/news4.png",
+                summary: "Emlak vergilerinde yapılan son değişiklikler ve mülk sahiplerini etkileyecek düzenlemeler hakkında detaylı bilgiler..."
+            },
+            {
+                id: 5,
+                date: "11 Mart 2024",
+                title: "Akıllı Ev Sistemleri Yaygınlaşıyor",
+                image: "images/news5.png",
+                summary: "Yeni konut projelerinde akıllı ev sistemlerinin kullanımı artıyor. Modern yaşamın vazgeçilmez bir parçası haline gelen bu sistemler..."
+            },
+            {
+                id: 6,
+                date: "10 Mart 2024",
+                title: "Depreme Dayanıklı Bina Yönetmeliği Güncellendi",
+                image: "images/news6.png",
+                summary: "Yeni deprem yönetmeliği ile ilgili detaylar ve bina sahiplerinin dikkat etmesi gerekenler hakkında kapsamlı bir rehber..."
+            }
+        ];
+
+        const itemsPerPage = 3;
+        let currentPage = 1;
+        const totalPages = Math.ceil(newsData.length / itemsPerPage);
+
+        function displayNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentNews = newsData.slice(startIndex, endIndex);
+
+            newsGrid.innerHTML = currentNews.map(news => `
+                <div class="news-card">
+                    <img src="${news.image}" alt="${news.title}">
+                    <div class="news-content">
+                        <span class="news-date">${news.date}</span>
+                        <h3>${news.title}</h3>
+                        <p>${news.summary}</p>
+                        <a href="haber-detay.html?id=${news.id}" class="read-more">Devamını Oku</a>
+                    </div>
+                </div>
+            `).join('');
+
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const pageNumbers = document.getElementById('pageNumbers');
+            const prevButton = document.getElementById('prevPage');
+            const nextButton = document.getElementById('nextPage');
+
+            // Sayfa numaralarını güncelle
+            pageNumbers.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageNumber = document.createElement('div');
+                pageNumber.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                pageNumber.textContent = i;
+                pageNumber.onclick = () => {
+                    currentPage = i;
+                    displayNews();
+                };
+                pageNumbers.appendChild(pageNumber);
+            }
+
+            // Önceki/Sonraki butonlarını güncelle
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages;
+        }
+
+        // Event Listeners
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayNews();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayNews();
+            }
+        });
+
+        // İlk yükleme
+        displayNews();
+    </script>
+</body>
+</html> 

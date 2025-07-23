@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 120px auto;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            opacity: 0.9;
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .auth-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .terms {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 2rem;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-right: 2rem;
+        }
+
+        .modal-text {
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Kayıt Formu -->
+    <main>
+        <div class="auth-container">
+            <h2>Hesap Oluştur</h2>
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Ad</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Soyad</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        <a href="#" class="terms-link" data-type="terms">Kullanım koşullarını</a> ve 
+                        <a href="#" class="terms-link" data-type="privacy">Gizlilik politikasını</a> okudum ve kabul ediyorum
+                    </label>
+                </div>
+                <button type="submit" class="auth-btn">Kayıt Ol</button>
+                <div class="auth-links">
+                    <p>Zaten hesabınız var mı? <a href="giris.html">Giriş Yap</a></p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Kullanım Koşulları</h2>
+            <div class="modal-text">
+                <h3>1. Genel Hükümler</h3>
+                <p>Bu web sitesini kullanarak, aşağıdaki kullanım koşullarını kabul etmiş sayılırsınız. Bu koşulları kabul etmiyorsanız, lütfen siteyi kullanmayınız.</p>
+
+                <h3>2. Üyelik</h3>
+                <p>Site üyeliği için 18 yaşından büyük olmanız gerekmektedir. Üyelik bilgilerinizin doğru ve güncel olması sizin sorumluluğunuzdadır.</p>
+
+                <h3>3. İlan Verme Kuralları</h3>
+                <p>Vereceğiniz ilanların doğru ve güncel bilgiler içermesi gerekmektedir. Yanıltıcı veya yanlış bilgi içeren ilanlar kaldırılabilir.</p>
+
+                <h3>4. Gizlilik</h3>
+                <p>Kişisel bilgileriniz, gizlilik politikamız kapsamında korunmaktadır.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Gizlilik Politikası</h2>
+            <div class="modal-text">
+                <h3>1. Toplanan Bilgiler</h3>
+                <p>Kişisel bilgileriniz (ad, soyad, e-posta, telefon vb.) sadece hizmetlerimizi sunmak amacıyla toplanmaktadır.</p>
+
+                <h3>2. Bilgilerin Kullanımı</h3>
+                <p>Toplanan bilgiler, size daha iyi hizmet sunmak ve iletişim kurmak amacıyla kullanılmaktadır.</p>
+
+                <h3>3. Bilgi Güvenliği</h3>
+                <p>Kişisel bilgileriniz, endüstri standardı güvenlik önlemleriyle korunmaktadır.</p>
+
+                <h3>4. Çerezler</h3>
+                <p>Sitemiz, kullanıcı deneyimini iyileştirmek için çerezler kullanmaktadır.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        name: `${firstName} ${lastName}`,
+                        phone
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz.');
+                    window.location.href = 'giris.html';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Kayıt hatası:', error);
+                alert('Kayıt olurken bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        });
+
+        // Modal işlemleri
+        const termsLinks = document.querySelectorAll('.terms-link');
+        const modals = {
+            terms: document.getElementById('termsModal'),
+            privacy: document.getElementById('privacyModal')
+        };
+        const closeButtons = document.querySelectorAll('.close-modal');
+
+        termsLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const type = this.dataset.type;
+                modals[type].style.display = 'block';
+            });
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Emlak Dünyası</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-[#40E0D0]">Emlak Dünyası Admin</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="showPage('dashboard')" class="nav-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100 active" data-page="dashboard">
+                        <i class="fas fa-home mr-2"></i>Dashboard
+                    </button>
+                    <button onclick="showPage('complaints')" class="nav-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100" data-page="complaints">
+                        <i class="fas fa-exclamation-circle mr-2"></i>Şikayetler
+                    </button>
+                    <button onclick="showPage('users')" class="nav-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100" data-page="users">
+                        <i class="fas fa-users mr-2"></i>Kullanıcılar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- İlan Sayısı Kartı -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700">Toplam İlan</h3>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">1,234</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-home text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-sm text-green-600">
+                        <i class="fas fa-arrow-up mr-1"></i>%12 artış
+                    </div>
+                </div>
+
+                <!-- Kullanıcı Sayısı Kartı -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700">Toplam Kullanıcı</h3>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">856</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-sm text-green-600">
+                        <i class="fas fa-arrow-up mr-1"></i>%8 artış
+                    </div>
+                </div>
+
+                <!-- Şikayet Sayısı Kartı -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700">Bekleyen Şikayet</h3>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">23</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-exclamation-circle text-red-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-sm text-red-600">
+                        <i class="fas fa-arrow-up mr-1"></i>%5 artış
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Şikayetler Sayfası -->
+        <div id="complaints" class="page hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Şikayetler</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İlan Başlığı</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Şikayet Türü</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kullanıcı</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Açıklama</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Lüks Daire</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Yanlış Bilgi</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ahmet123</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Fiyat bilgisi yanlış</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <a href="ilan-detay2.html" class="view-btn">İncele</a>
+                                    <button onclick="removeComplaint(this)" class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i> Kaldır
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Bahçeli Müstakil</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Uygunsuz İçerik</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">mehmet456</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Fotoğraflar eski</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <a href="ilan-detay2.html" class="view-btn">İncele</a>
+                                    <button onclick="removeComplaint(this)" class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i> Kaldır
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kullanıcılar Sayfası -->
+        <div id="users" class="page hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Kullanıcılar</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kullanıcı Adı</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-posta</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ahmet123</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ahmet@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Aktif
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center space-x-3">
+                                        <button onclick="window.location.href='kullanici-detay.html?from=admin'" class="text-blue-600 hover:text-blue-900">
+                                            <i class="fas fa-eye"></i>
+                                            İncele
+                                        </button>
+                                        <button onclick="suspendUser(this)" class="text-yellow-600 hover:text-yellow-900">
+                                            <i class="fas fa-pause-circle"></i>
+                                            Askıya Al
+                                        </button>
+                                        <button onclick="deleteUser(this)" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Sil
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">mehmet456</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">mehmet@example.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        Beklemede
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <div class="flex items-center space-x-3">
+                                        <button onclick="window.location.href='kullanici-detay.html?from=admin'" class="text-blue-600 hover:text-blue-900">
+                                            <i class="fas fa-eye"></i>
+                                            İncele
+                                        </button>
+                                        <button onclick="suspendUser(this)" class="text-yellow-600 hover:text-yellow-900">
+                                            <i class="fas fa-pause-circle"></i>
+                                            Askıya Al
+                                        </button>
+                                        <button onclick="deleteUser(this)" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Sil
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sayfa geçişlerini yöneten fonksiyon
+        function showPage(pageId) {
+            // Tüm sayfaları gizle
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('active');
+            });
+
+            // Seçilen sayfayı göster
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById(pageId).classList.add('active');
+
+            // Nav butonlarının aktif durumunu güncelle
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-gray-100', 'text-gray-900');
+                btn.classList.add('text-gray-600');
+            });
+
+            // Tıklanan butonu aktif yap
+            const activeBtn = document.querySelector(`[data-page="${pageId}"]`);
+            activeBtn.classList.add('active', 'bg-gray-100', 'text-gray-900');
+            activeBtn.classList.remove('text-gray-600');
+        }
+
+        // Şikayet kaldırma fonksiyonu
+        function removeComplaint(button) {
+            if (confirm('Bu şikayeti kaldırmak istediğinizden emin misiniz?')) {
+                const row = button.closest('tr');
+                row.remove();
+                // Burada sunucuya şikayetin kaldırıldığına dair bir istek gönderilebilir
+            }
+        }
+
+        // Kullanıcı askıya alma fonksiyonu
+        function suspendUser(button) {
+            if (confirm('Bu kullanıcıyı askıya almak istediğinizden emin misiniz?')) {
+                const row = button.closest('tr');
+                const statusCell = row.querySelector('td:nth-child(3) span');
+                statusCell.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800';
+                statusCell.textContent = 'Beklemede';
+                // Burada sunucuya kullanıcının askıya alındığına dair bir istek gönderilebilir
+            }
+        }
+
+        // Kullanıcı silme fonksiyonu
+        function deleteUser(button) {
+            if (confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
+                const row = button.closest('tr');
+                row.remove();
+                // Burada sunucuya kullanıcının silindiğine dair bir istek gönderilebilir
+            }
+        }
+
+        // Sayfa ilk yüklendiğinde dashboard'ı göster ve localStorage kontrolü yap
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('dashboard');
+
+            // localStorage'dan kullanıcı işlemini kontrol et
+            const userAction = localStorage.getItem('userAction');
+            if (userAction) {
+                const action = JSON.parse(userAction);
+                const now = new Date().getTime();
+                
+                // Son 5 saniye içinde yapılan işlemleri kontrol et
+                if (now - action.timestamp < 5000) {
+                    if (action.action === 'delete') {
+                        // Kullanıcıyı sil
+                        const userRow = document.querySelector(`tr[data-user-id="${action.userId}"]`);
+                        if (userRow) {
+                            userRow.remove();
+                        }
+                    } else if (action.action === 'suspend') {
+                        // Kullanıcıyı askıya al
+                        const userRow = document.querySelector(`tr[data-user-id="${action.userId}"]`);
+                        if (userRow) {
+                            const statusCell = userRow.querySelector('td:nth-child(3) span');
+                            statusCell.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800';
+                            statusCell.textContent = 'Beklemede';
+                        }
+                    }
+                }
+                
+                // İşlemi localStorage'dan temizle
+                localStorage.removeItem('userAction');
+            }
+        });
+    </script>
+</body>
+</html> 

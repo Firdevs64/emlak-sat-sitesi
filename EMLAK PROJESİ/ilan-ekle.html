@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlan Ekle - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .add-listing-container {
+            max-width: 1000px;
+            margin: 120px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .add-listing-header {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .add-listing-header h1 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .add-listing-header p {
+            color: var(--primary-color);
+        }
+
+        .add-listing-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary-color);
+        }
+
+        .image-upload i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- İlan Ekleme İçeriği -->
+    <main>
+        <div class="add-listing-container">
+            <div class="add-listing-header">
+                <h1>Yeni İlan Ekle</h1>
+                <p>Lütfen ilanınızla ilgili tüm bilgileri eksiksiz doldurun.</p>
+            </div>
+
+            <form class="add-listing-form" id="addListingForm">
+                <div class="form-section">
+                    <h2 class="section-title">Temel Bilgiler</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="listingType">İlan Türü</label>
+                            <select id="listingType" name="listingType" required>
+                                <option value="">Seçiniz</option>
+                                <option value="satilik">Satılık</option>
+                                <option value="kiralik">Kiralık</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyType">Emlak Türü</label>
+                            <select id="propertyType" name="propertyType" required>
+                                <option value="">Seçiniz</option>
+                                <option value="konut">Konut</option>
+                                <option value="arsa">Arsa</option>
+                                <option value="isyeri">İşyeri</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">İlan Başlığı</label>
+                            <input type="text" id="title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Fiyat</label>
+                            <input type="number" id="price" name="price" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Konum Bilgileri</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="city">Şehir</label>
+                            <select id="city" name="city" required>
+                                <option value="">Seçiniz</option>
+                                <option value="istanbul">İstanbul</option>
+                                <option value="ankara">Ankara</option>
+                                <option value="izmir">İzmir</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="district">İlçe</label>
+                            <select id="district" name="district" required>
+                                <option value="">Seçiniz</option>
+                                <option value="kadikoy">Kadıköy</option>
+                                <option value="besiktas">Beşiktaş</option>
+                                <option value="sisli">Şişli</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Adres</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Emlak Özellikleri</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="area">Alan (m²)</label>
+                            <input type="number" id="area" name="area" required>
+                        </div>
+                        <div class="form-group konut-fields">
+                            <label for="rooms">Oda Sayısı</label>
+                            <select id="rooms" name="rooms">
+                                <option value="1+1">1+1</option>
+                                <option value="2+1">2+1</option>
+                                <option value="3+1">3+1</option>
+                                <option value="4+1">4+1</option>
+                                <option value="5+">5+ ve üzeri</option>
+                            </select>
+                        </div>
+                        <div class="form-group konut-fields">
+                            <label for="floor">Kat</label>
+                            <input type="number" id="floor" name="floor">
+                        </div>
+                        <div class="form-group konut-fields">
+                            <label for="buildingAge">Bina Yaşı</label>
+                            <input type="number" id="buildingAge" name="buildingAge">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Özellikler</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="furnished" name="furnished">
+                                <label for="furnished">Eşyalı</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="parking" name="parking">
+                                <label for="parking">Otopark</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="elevator" name="elevator">
+                                <label for="elevator">Asansör</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="security" name="security">
+                                <label for="security">Güvenlik</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="pool" name="pool">
+                                <label for="pool">Havuz</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="garden" name="garden">
+                                <label for="garden">Bahçe</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Açıklama</h2>
+                    <div class="form-group">
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Fotoğraflar</h2>
+                    <div class="image-upload" id="imageUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Fotoğrafları yüklemek için tıklayın veya sürükleyin</p>
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+
+                <!-- EİDS Yetki Doğrulama Bölümü -->
+                <div class="form-section eids-verification-section">
+                    <h2 class="section-title">EİDS Yetki Doğrulama <i class="fas fa-info-circle eids-info-icon" title="EİDS yetkisi doğrulaması hakkında bilgi"></i></h2>
+                    <!-- EİDS Bilgi Kutusu -->
+                    <div id="eidsInfoBox" class="eids-info-box">
+                        <p>
+                            Taşınmaz Ticareti Hakkında Yönetmelik hükümleri<br>
+                            gereğince, ilana konu taşınmazın size veya birinci ve<br>
+                            ikinci derece kan hısımlarınıza veya eşinize ait<br>
+                            olduğunun veya taşınmaz sahibi tarafından<br>
+                            yetkilendirildiğinizin doğrulanması gerekmektedir.<br>
+                            Lütfen Taşınmaz Numarası (ID)'yi girerek<br>
+                            doğrulayınız.
+                        </p>
+                    </div>
+                     <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tapu-durumu">Tapu Durumu <span class="required">*</span></label>
+                            <select id="tapu-durumu" name="tapu-durumu" required>
+                                <option value="">Seçiniz</option>
+                                <option value="müstakil-tapu">Müstakil Tapu</option>
+                                <option value="kat-irtifaki">Kat İrtifakı</option>
+                                <option value="kat-mulkiyeti">Kat Mülkiyeti</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-group-with-button">
+                            <label for="tasinmaz-id">Taşınmaz Numarası (ID) <span class="required">*</span></label>
+                            <input type="text" id="tasinmaz-id" name="tasinmaz-id" placeholder="Lütfen yetkilisi olduğunuz taşınmazın ID'si giriniz" required>
+                            <button type="button" class="btn btn-primary" id="verifyEids">Doğrula</button>
+                        </div>
+                    </div>
+                    <p class="help-text"><a href="#" id="howToLearnIdLink">Taşınmaz numaramı nasıl öğrenirim?</a></p>
+                </div>
+
+                <button type="submit" class="submit-btn">İlanı Yayınla</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- EİDS Bilgi Kutusu -->
+    <div id="eidsInfoBox" class="eids-info-box">
+        <p>
+            Taşınmaz Ticareti Hakkında Yönetmelik hükümleri<br>
+            gereğince, ilana konu taşınmazın size veya birinci ve<br>
+            ikinci derece kan hısımlarınıza veya eşinize ait<br>
+            olduğunun veya taşınmaz sahibi tarafından<br>
+            yetkilendirildiğinizin doğrulanması gerekmektedir.<br>
+            Lütfen Taşınmaz Numarası (ID)'yi girerek<br>
+            doğrulayınız.
+        </p>
+    </div>
+
+    <!-- Taşınmaz Numarası Bilgi Kutusu -->
+    <div id="howToLearnInfoBox" class="info-box">
+        <span class="close-info-box">&times;</span>
+        <h2>🏷️ İlan Eklemek İçin Taşınmaz (Ada/Parsel) Numaramı Nasıl Öğrenirim?</h2>
+        <p>
+            İlanınızı ekleyebilmeniz için, taşınmaza ait ada ve parsel bilgilerini girmeniz gerekmektedir. Bu bilgiler, taşınmazın resmi kayıtlarıyla eşleşmesini sağlar ve ilanınızın doğruluğunu artırır.
+        </p>
+        <h3>📌 Taşınmaz Bilgilerini Öğrenmenin Yolları:</h3>
+        <p><strong>1. Tapu Belgesine Bakın</strong><br>Tapu senedinizde, taşınmaza ait aşağıdaki bilgiler yer alır:</p>
+        <ul>
+            <li>İl / İlçe / Mahalle</li>
+            <li>Ada No</li>
+            <li>Parsel No</li>
+        </ul>
+        <p>📝 Tapunuzdaki bu bilgileri ilan formuna doğrudan girebilirsiniz.</p>
+        <p><strong>2. e-Devlet Üzerinden Sorgulama (Tapu Bilgileri)</strong><br>Taşınmazınıza ait bilgileri e-Devlet üzerinden kolayca öğrenebilirsiniz:</p>
+        <ul>
+            <li><a href="https://www.turkiye.gov.tr" target="_blank">www.turkiye.gov.tr</a> adresine girin.</li>
+            <li>T.C. kimlik numaranız ve şifrenizle giriş yapın.</li>
+            <li>Arama kutusuna "Tapu Bilgileri Sorgulama" yazın ve ilgili hizmete tıklayın.</li>
+            <li>Üzerinize kayıtlı taşınmazları ve parsel bilgilerini görüntüleyin.</li>
+        </ul>
+        <p><strong>3. Parsel Sorgu Uygulamasını Kullanın</strong><br>Resmî Parsel Sorgu uygulaması üzerinden ada/parsel bilgilerini harita üzerinde bulabilirsiniz:</p>
+        <ul>
+            <li><a href="https://parselsorgu.tkgm.gov.tr" target="_blank">parselsorgu.tkgm.tkgm.gov.tr</a></li>
+            <li>İl, ilçe, mahalle bilgilerini girerek ada ve parsel numarasına ulaşabilirsiniz.</li>
+        </ul>
+        <h3>❓ Sık Sorulan Sorular</h3>
+        <p><strong>📌 Ada ve parsel ne demek?</strong><br>Ada: Bir mahalledeki imar adasını ifade eder.<br>Parsel: O ada içerisindeki her bir bağımsız taşınmazdır.</p>
+        <p><strong>📌 Bu bilgiler neden gerekli?</strong><br>Doğruluğu teyit edilen ilanlar hem daha güvenilir görünür hem de hukuki sorunların önüne geçer.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Fotoğraf yükleme işlemleri
+        const imageUpload = document.getElementById('imageUpload');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageUpload.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        imageUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = 'var(--primary-color)';
+        });
+
+        imageUpload.addEventListener('dragleave', () => {
+            imageUpload.style.borderColor = '#ddd';
+        });
+
+        imageUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUpload.style.borderColor = '#ddd';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <button type="button" class="remove-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        imagePreview.appendChild(previewItem);
+
+                        previewItem.querySelector('.remove-btn').addEventListener('click', () => {
+                            previewItem.remove();
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Form gönderimi
+        document.getElementById('addListingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            // Burada form verilerini işleyebilirsiniz
+            alert('İlanınız başarıyla yayınlandı.');
+            this.reset();
+            imagePreview.innerHTML = '';
+        });
+
+        // Emlak tipi değiştiğinde alanları güncelle
+        document.getElementById('propertyType').addEventListener('change', function() {
+            const isArsa = this.value === 'arsa';
+            const arsaFields = document.querySelectorAll('.arsa-fields');
+            const konutFields = document.querySelectorAll('.konut-fields');
+            
+            arsaFields.forEach(field => {
+                field.style.display = isArsa ? 'block' : 'none';
+                const input = field.querySelector('input');
+                if (input) {
+                    input.required = isArsa;
+                }
+            });
+            
+            konutFields.forEach(field => {
+                field.style.display = isArsa ? 'none' : 'block';
+                const input = field.querySelector('input, select');
+                if (input) {
+                    input.required = !isArsa;
+                }
+            });
+        });
+
+        // Sayfa yüklendiğinde mevcut emlak tipine göre alanları ayarla
+        document.addEventListener('DOMContentLoaded', function() {
+            const propertyType = document.getElementById('propertyType');
+            propertyType.dispatchEvent(new Event('change'));
+        });
+    </script>
+</body>
+</html> 

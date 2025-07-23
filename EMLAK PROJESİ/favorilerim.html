@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorilerim - Emlak Dünyası</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .favorites-container {
+            max-width: 1200px;
+            margin: 120px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .favorites-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .favorites-header h1 {
+            color: var(--dark-gray);
+        }
+
+        .favorites-count {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .favorite-card {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .favorite-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .favorite-content {
+            padding: 1.5rem;
+        }
+
+        .favorite-title {
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .favorite-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .favorite-location {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .favorite-features {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .favorite-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .view-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .remove-btn {
+            background-color: #ff4d4f;
+            color: var(--white);
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .favorite-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .no-favorites {
+            text-align: center;
+            padding: 3rem;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .no-favorites i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .no-favorites h3 {
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .no-favorites p {
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .browse-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .browse-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .favorites-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Emlak Dünyası</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=satilik">Satılık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=satilik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=satilik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="arama-sonuclari.html?type=kiralik">Kiralık</a>
+                        <ul class="dropdown-content">
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=konut">Konut</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=arsa">Arsa</a></li>
+                            <li><a href="arama-sonuclari.html?type=kiralik&category=isyeri">İşyeri</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="haberler.html">Haberler</a></li>
+                    <li class="dropdown">
+                        <a href="#">Hesabım</a>
+                        <ul class="dropdown-content">
+                            <li><a href="uyelik-bilgilerim.html">Üyelik Bilgilerim</a></li>
+                            <li><a href="ilanlarim.html">İlanlarımı Yönet</a></li>
+                            <li><a href="favorilerim.html">Favorilerim</a></li>
+                            <li><a href="#" id="cikisYap">Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Favorilerim İçeriği -->
+    <main>
+        <div class="favorites-container">
+            <div class="favorites-header">
+                <h1>Favorilerim</h1>
+                <p class="favorites-count">3 Favori İlan</p>
+            </div>
+
+            <div class="favorites-grid">
+                <!-- Örnek Favori İlan 1 -->
+                <div class="favorite-card">
+                    <span class="favorite-badge">
+                        <i class="fas fa-heart"></i>
+                        Favori
+                    </span>
+                    <img src="images/listing1.jpg" alt="İlan Görseli" class="favorite-image">
+                    <div class="favorite-content">
+                        <h3 class="favorite-title">Lüks Daire</h3>
+                        <p class="favorite-price">2.500.000 TL</p>
+                        <p class="favorite-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Kadıköy, İstanbul
+                        </p>
+                        <div class="favorite-features">
+                            <span class="feature-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                120m²
+                            </span>
+                            <span class="feature-item">
+                                <i class="fas fa-bed"></i>
+                                3+1
+                            </span>
+                        </div>
+                        <div class="favorite-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye"></i>
+                                İncele
+                            </button>
+                            <button class="action-btn remove-btn">
+                                <i class="fas fa-trash"></i>
+                                Kaldır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Örnek Favori İlan 2 -->
+                <div class="favorite-card">
+                    <span class="favorite-badge">
+                        <i class="fas fa-heart"></i>
+                        Favori
+                    </span>
+                    <img src="images/listing2.jpg" alt="İlan Görseli" class="favorite-image">
+                    <div class="favorite-content">
+                        <h3 class="favorite-title">Bahçeli Müstakil Ev</h3>
+                        <p class="favorite-price">3.750.000 TL</p>
+                        <p class="favorite-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Beşiktaş, İstanbul
+                        </p>
+                        <div class="favorite-features">
+                            <span class="feature-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                180m²
+                            </span>
+                            <span class="feature-item">
+                                <i class="fas fa-bed"></i>
+                                4+1
+                            </span>
+                        </div>
+                        <div class="favorite-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye"></i>
+                                İncele
+                            </button>
+                            <button class="action-btn remove-btn">
+                                <i class="fas fa-trash"></i>
+                                Kaldır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Örnek Favori İlan 3 -->
+                <div class="favorite-card">
+                    <span class="favorite-badge">
+                        <i class="fas fa-heart"></i>
+                        Favori
+                    </span>
+                    <img src="images/listing3.jpg" alt="İlan Görseli" class="favorite-image">
+                    <div class="favorite-content">
+                        <h3 class="favorite-title">Modern Ofis</h3>
+                        <p class="favorite-price">5.000 TL</p>
+                        <p class="favorite-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Şişli, İstanbul
+                        </p>
+                        <div class="favorite-features">
+                            <span class="feature-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                150m²
+                            </span>
+                            <span class="feature-item">
+                                <i class="fas fa-building"></i>
+                                Ofis
+                            </span>
+                        </div>
+                        <div class="favorite-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye"></i>
+                                İncele
+                            </button>
+                            <button class="action-btn remove-btn">
+                                <i class="fas fa-trash"></i>
+                                Kaldır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favori Yoksa Gösterilecek Alan -->
+            <div class="no-favorites" style="display: none;">
+                <i class="fas fa-heart"></i>
+                <h3>Henüz Favori İlanınız Bulunmuyor</h3>
+                <p>Beğendiğiniz ilanları favorilerinize ekleyerek daha sonra kolayca ulaşabilirsiniz.</p>
+                <a href="index.html" class="browse-btn">
+                    <i class="fas fa-search"></i>
+                    İlanlara Göz At
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Emlak Dünyası</h3>
+                <p>Hayalinizdeki eve bir adım daha yaklaşın.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                    <li><a href="gizlilik.html">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bizi Takip Edin</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Emlak Dünyası. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Favori kaldırma işlemi
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                if (confirm('Bu ilanı favorilerinizden kaldırmak istediğinizden emin misiniz?')) {
+                    const favoriteCard = this.closest('.favorite-card');
+                    favoriteCard.remove();
+                    
+                    // Favori sayısını güncelle
+                    const favoritesCount = document.querySelectorAll('.favorite-card').length;
+                    document.querySelector('.favorites-count').textContent = `${favoritesCount} Favori İlan`;
+                    
+                    // Eğer hiç favori kalmadıysa "Favori Yok" mesajını göster
+                    if (favoritesCount === 0) {
+                        document.querySelector('.no-favorites').style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // İlan inceleme işlemi
+        document.querySelectorAll('.view-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const favoriteCard = this.closest('.favorite-card');
+                const listingTitle = favoriteCard.querySelector('.favorite-title').textContent;
+                // İlan detay sayfasına yönlendir
+                window.location.href = "ilan-detay2.html?title=" + encodeURIComponent(listingTitle);
+            });
+        });
+    </script>
+</body>
+</html>

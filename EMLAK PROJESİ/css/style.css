@@ -1,0 +1,711 @@
+/* Genel Stiller */
+:root {
+    --primary-color: #00A0B0; /* Turkuaz (RAL5025) */
+    --dark-gray: #333333;
+    --light-gray: #f5f5f5;
+    --white: #ffffff;
+    --shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-gray);
+}
+
+/* Header ve Navigasyon */
+.navbar {
+    background-color: var(--white);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo Stili */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.logo a {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-links ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--dark-gray);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Dropdown Menü */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    min-width: 200px;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.dropdown-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-content li {
+    margin: 0;
+}
+
+.dropdown-content a {
+    padding: 0.8rem 1rem;
+    display: block;
+    color: var(--dark-gray);
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--light-gray);
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown-content.show {
+    display: block;
+}
+
+/* Filtre Butonu */
+.filter-btn {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.filter-btn i {
+    font-size: 1.1rem;
+}
+
+.filter-btn:hover {
+    background-color: var(--dark-gray);
+    transform: translateY(-2px);
+}
+
+/* Butonlar */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-login {
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-register {
+    background-color: var(--primary-color);
+    color: var(--white);
+    margin-left: 1rem;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Arama Bölümü */
+.search-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 8rem 5% 4rem;
+    text-align: center;
+    color: var(--white);
+}
+
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-box {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.search-btn {
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 4px;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.filter-options {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-options select,
+.filter-options input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* İlan Kartları */
+.featured-listings,
+.news-section {
+    padding: 4rem 5%;
+}
+
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 20px 0;
+}
+
+.listing-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 16px;
+}
+
+.listing-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.listing-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+}
+
+.listing-card .price {
+    color: #0097a7;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.listing-card .location {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.details-btn {
+    background: #0097a7;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Endeksa Butonu */
+.endeksa-section {
+    text-align: center;
+    padding: 2rem 5%;
+    background-color: var(--light-gray);
+}
+
+.endeksa-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.endeksa-btn:hover {
+    background-color: var(--dark-gray);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-gray);
+    color: var(--white);
+    padding: 4rem 5% 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: var(--primary-color);
+}
+
+.footer-section .email {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.footer-section .email:hover {
+    color: var(--primary-color);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    font-size: 1.5rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .nav-links {
+        margin: 1rem 0;
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .auth-buttons {
+        margin-top: 1rem;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .filter-options {
+        flex-direction: column;
+    }
+
+    .filter-options select,
+    .filter-options input {
+        width: 100%;
+    }
+}
+
+/* Sorun Bildirme Butonu */
+.report-issue-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.report-issue-btn i {
+    font-size: 16px;
+}
+
+.report-issue-btn:hover {
+    background-color: #cc0000;
+    transform: translateY(-2px);
+}
+
+/* Modal Stilleri */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+.issue-types {
+    margin: 20px 0;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.issue-description {
+    margin: 20px 0;
+}
+
+.issue-description textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* EİDS Bilgi Kutusu Stilleri */
+.eids-info-box {
+    display: none; /* Başlangıçta gizli */
+    position: fixed; /* Sayfa kaydırıldığında sabit kalması için */
+    width: 300px; /* Kutu genişliği */
+    background-color: var(--white); /* Kutu arkaplan rengi */
+    border: 1px solid #ddd; /* Kutu kenarlığı */
+    border-radius: 4px; /* Kutu kenar yuvarlaklığı */
+    padding: 15px; /* Kutu içi boşluk */
+    box-shadow: var(--shadow); /* Kutu gölgesi */
+    z-index: 1000; /* Diğer elementlerin üzerinde görünmesi için */
+    font-size: 0.9rem; /* Yazı boyutu */
+    line-height: 1.5; /* Satır aralığı */
+    color: var(--dark-gray);
+    top: 50%; /* Sayfanın ortasına dikeyde */
+    left: 50%; /* Sayfanın ortasına yatayda */
+    transform: translate(-50%, -50%); /* Tam ortalamak için */
+}
+
+.eids-info-box p {
+    margin-bottom: 10px;
+}
+
+.eids-info-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* EİDS Yetki Doğrulama Bölümü Stilleri */
+.eids-verification-section {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px dashed var(--primary-color);
+    position: relative;
+}
+
+.eids-verification-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.eids-verification-section .eids-info-icon {
+    font-size: 1rem;
+    color: var(--dark-gray);
+    cursor: help;
+    position: relative;
+}
+
+.eids-verification-section .form-group {
+    margin-bottom: 15px;
+}
+
+.eids-verification-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+.eids-verification-section select,
+.eids-verification-section input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.eids-verification-section .form-grid {
+    display: flex; /* Form elemanlarını aynı hizaya getirmek için */
+    align-items: flex-end; /* Elemanları alt kenarlarına göre hizala */
+    gap: 15px; /* Elemanlar arasına boşluk */
+    margin-bottom: 15px; /* Form grid altına boşluk */
+}
+
+.eids-verification-section .form-grid .form-group {
+    flex-grow: 1; /* Boş alanı doldurması için genişle */
+    margin-bottom: 0; /* Üstteki margin-bottom ile çakışmaması için sıfırla */
+}
+
+.eids-verification-section .form-group-with-button {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 0; /* Üstteki form-grid flex düzenlemesiyle çakışmaması için sıfırla */
+}
+
+.eids-verification-section .form-group-with-button input[type="text"] {
+    flex-grow: 1;
+}
+
+.eids-verification-section .help-text {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.eids-verification-section .help-text a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.eids-verification-section .help-text a:hover {
+    text-decoration: underline;
+}
+
+.eids-verification-section .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    /* margin-top kaldırıldı, hizalama flexbox ile yapılacak */
+}
+
+.eids-verification-section .btn-primary:hover {
+    background-color: var(--dark-gray);
+}
+
+/* Genel Bilgi Kutusu Stilleri */
+.info-box {
+    display: none; /* Başlangıçta gizli */
+    position: fixed; /* Sayfa kaydırıldığında sabit kalması için */
+    width: 90%; /* Kutu genişliği */
+    max-width: 600px; /* Maksimum genişlik */
+    background-color: var(--white); /* Kutu arkaplan rengi */
+    border: 1px solid #ddd; /* Kutu kenarlığı */
+    border-radius: 8px; /* Kutu kenar yuvarlaklığı */
+    padding: 20px; /* Kutu içi boşluk */
+    box-shadow: var(--shadow); /* Kutu gölgesi */
+    z-index: 1001; /* EİDS bilgi kutusunun üzerinde görünmesi için */
+    font-size: 1rem; /* Yazı boyutu */
+    line-height: 1.6; /* Satır aralığı */
+    color: var(--dark-gray);
+    top: 50%; /* Sayfanın ortasına dikeyde */
+    left: 50%; /* Sayfanın ortasına yatayda */
+    transform: translate(-50%, -50%); /* Tam ortalamak için */
+    max-height: 80vh; /* Maksimum yükseklik (viewport yüksekliğinin %80'i) */
+    overflow-y: auto; /* İçerik taştığında dikey kaydırma çubuğu */
+}
+
+.info-box h2,
+.info-box h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.info-box p {
+    margin-bottom: 10px;
+}
+
+.info-box ul {
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.info-box li {
+    margin-bottom: 5px;
+}
+
+.info-box a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.info-box a:hover {
+    text-decoration: underline;
+}
+
+.close-info-box {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-info-box:hover {
+    color: #777;
+}
+
+.no-image {
+    width: 100%;
+    height: 160px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.heart {
+    color: #e74c3c;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.heart.filled {
+    color: #e74c3c;
+    font-weight: bold;
+}
